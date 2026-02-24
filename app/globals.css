@@ -1,0 +1,32 @@
+/* app/globals.css */
+body { 
+  font-family: sans-serif; 
+  padding: 20px; 
+  line-height: 1.6; 
+}
+
+input { 
+  display: block; 
+  margin-bottom: 10px; 
+  padding: 8px; 
+  width: 250px; 
+}
+
+button { 
+  padding: 8px 16px; 
+  cursor: pointer; 
+  background: #0070f3; 
+  color: white; 
+  border: none; border-radius: 4px; 
+}
+
+button:hover { 
+  background: #0051bb; 
+
+}
+
+a { 
+  color: #0070f3; 
+  text-decoration: none; 
+  margin-right: 10px; 
+}
