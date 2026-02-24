@@ -4,18 +4,6 @@ import { useRouter } from 'next/navigation';
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
-
-  // const handleLogout = () => {
-  //   // 1. Clear the authentication token
-  //   localStorage.removeItem('token'); 
-    
-  //   // 2. Clear any other user data
-  //   localStorage.removeItem('user');
-
-  //   // 3. Redirect to the login page
-  //   router.push('/login');
-  // };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     // Clear the cookie by setting its expiry to the past
