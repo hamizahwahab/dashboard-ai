@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(request) {
+export function proxy(request) {
   // 1. Define which paths are protected
   const path = request.nextUrl.pathname;
   const isProtectedPath = path.startsWith('/dashboard');
