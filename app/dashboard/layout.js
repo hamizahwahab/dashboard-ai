@@ -1,6 +1,7 @@
-"use client"; // We need this because we are using a button click/navigation
-import Link from 'next/link';
+"use client";
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { BrainCircuit, LayoutDashboard, User, Settings, LogOut, Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -11,68 +12,101 @@ export default function DashboardLayout({ children }) {
     router.push('/login');
   };
 
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-dark-bg">
+
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm lg:hidden" 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside style={{ 
-        width: '260px', 
-        backgroundColor: '#fff', 
-        borderRight: '1px solid #e5e7eb', 
-        padding: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between' // This pushes the logout to the bottom
-      }}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 transform border-r border-slate-200 bg-white transition-transform duration-300 lg:static lg:translate-x-0 dark:border-dark-border dark:bg-dark-card flex flex-col justify-between ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '30px' }}>MyAI SaaS</h2>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <Link href="/dashboard" style={navStyle}>🏠 Home</Link>
-            <Link href="/dashboard/chat" style={navStyle}>💬 AI Chat</Link>
-            <hr style={{ border: '0', borderTop: '1px solid #eee', margin: '10px 0' }} />
-            <Link href="/dashboard/settings/profile" style={navStyle}>👤 Profile</Link>
-            <Link href="/dashboard/settings/security" style={navStyle}>🔒 Security</Link>
+          {/* Logo */}
+          <div className="flex h-16 items-center px-6 border-b border-slate-100 dark:border-dark-border">
+            <div className="flex items-center gap-2">
+              <div className="h-6 w-6 rounded bg-brand-900 flex items-center justify-center text-white">
+                <BrainCircuit />
+              </div>
+              <span className="dark:text-white text-lg font-extrabold text-slate-900 tracking-tight">AI Dashboard</span>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="space-y-1 px-3 py-6">
+            <SidebarItem 
+                href="/dashboard" 
+                icon={LayoutDashboard} 
+                label="Dashboard" 
+            />
+            <SidebarItem 
+                href="/dashboard/settings/profile" 
+                icon={User} 
+                label="Profile"  
+            />
+            <SidebarItem 
+                href="/dashboard/settings/security" 
+                icon={Settings} 
+                label="Security"  
+            />
           </nav>
         </div>
 
-        {/* Logout Section */}
-        <div style={{ borderTop: '1px solid #eee', paddingTop: '20px' }}>
+        
+
+        {/* LogOut */}
+        <div className="border-t border-slate-100 p-3 dark:border-dark-border">
           <button 
             onClick={handleLogout}
-            style={{
-              width: '100%',
-              padding: '12px',
-              backgroundColor: '#fee2e2', // Light red background
-              color: '#dc2626', // Dark red text
-              border: 'none',
-              borderRadius: '8px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'background 0.2s'
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#fecaca'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#fee2e2'}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:bg-red-50 dark:hover:bg-red-950/30"
           >
-            🚪 Logout
+            <LogOut size={20} strokeWidth={1.5} />
+            <span>Logout</span>
           </button>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main style={{ flex: 1, padding: '40px' }}>
-        {children}
-      </main>
+      <div className="flex flex-col flex-1 overflow-hidden">
+
+        {/* Header/Navbar */}
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200/60 bg-white/80 px-4 backdrop-blur-md lg:px-8 dark:border-dark-border dark:bg-dark-bg/80">
+          <div className="flex items-center gap-4">
+            <button onClick={() => setSidebarOpen(true)} className="p-2 text-slate-500 lg:hidden border rounded-xl hover:bg-slate-100 dark:hover:bg-white/5">
+              <Menu size={20} />
+            </button>
+          </div>
+
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8">
+          {children}
+        </main>
+      </div>
+      
     </div>
   );
 }
 
-const navStyle = {
-  padding: '10px 15px',
-  borderRadius: '8px',
-  textDecoration: 'none',
-  color: '#374151',
-  fontWeight: '500',
-};
+
+function SidebarItem({ icon: Icon, label, href = "#", active = false }) {
+  return (
+    <a 
+      href={href} 
+      className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+        active 
+        ? "bg-brand-50 text-brand-900 dark:bg-brand-900/20 dark:text-brand-100" 
+        : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"
+      }`}
+    >
+      <Icon size={20} strokeWidth={1.5} />
+      {label}
+    </a>
+  );
+}

@@ -42,35 +42,66 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ maxWidth: '300px', margin: '50px auto' }}>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <input 
-          type="text" 
-          placeholder="Username" 
-          value={form.username}
-          required
-          onChange={e => setForm({...form, username: e.target.value})} 
-          style={{ padding: '8px' }}
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={form.password}
-          required
-          onChange={e => setForm({...form, password: e.target.value})} 
-          style={{ padding: '8px' }}
-        />
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '4px' }}>
-          Enter Dashboard
-        </button>
-      </form>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       
-      {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+            Login
+        </h2>
+      </div>
       
-      <p style={{ marginTop: '20px' }}>
-        Don&apos;t have an account? <a href="/register">Register here</a>
-      </p>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <form onSubmit={handleLogin}>
+              <div className="mt-6">
+                  <div className="mt-1 flex rounded-md shadow-sm">
+                      <input 
+                        type="text" 
+                        placeholder="Username" 
+                        value={form.username}
+                        required
+                        onChange={e => setForm({...form, username: e.target.value})} 
+                        className="flex-1  border border-gray-300 form-input p-2 block w-full rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                      />
+                  </div>
+              </div>
+
+              <div className="mt-6">
+                <div className="mt-1 flex rounded-md shadow-sm">
+                    <input 
+                      type="password" 
+                      placeholder="Password" 
+                      value={form.password}
+                      required
+                      onChange={e => setForm({...form, password: e.target.value})} 
+                      className="flex-1  border border-gray-300 form-input p-2 block w-full rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    />
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <span className="block w-full rounded-md shadow-sm">
+                    <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                      Login
+                    </button>
+                </span>
+              </div>
+          
+            </form>
+            
+            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
+            <p className="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
+              Don&apos;t have an account?
+                <a href="/register"
+                    className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150 ml-1">
+                     Register here
+                </a>
+            </p>
+  
+        </div>
+      </div>
+
     </div>
   );
 }

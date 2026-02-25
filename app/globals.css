@@ -1,32 +1,60 @@
-/* app/globals.css */
-body { 
-  font-family: sans-serif; 
-  padding: 20px; 
-  line-height: 1.6; 
+@import "tailwindcss";
+
+@theme {
+  /* This creates utilities like bg-brand, text-brand-50, etc. */
+  --color-brand: #010694;
+  --color-brand-50: #eff0ff;
+  --color-brand-100: #e0e2ff;
+  --color-brand-200: #c3c7ff;
+  --color-brand-300: #9aa0ff;
+  --color-brand-400: #6d70fc;
+  --color-brand-500: #4346ef;
+  --color-brand-600: #2b2bd1;
+  --color-brand-700: #2220aa;
+  --color-brand-800: #1e1c89;
+  --color-brand-900: #010694;
+
+  /* Dark mode specific tokens */
+  --color-dark-bg: #0B0F19;
+  --color-dark-card: #111623;
+  --color-dark-border: #1E2536;
+
+  /* Custom spacing or shadows */
+  --shadow-flat: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-input { 
-  display: block; 
-  margin-bottom: 10px; 
-  padding: 8px; 
-  width: 250px; 
+/* Enable class-based dark mode if you use a toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-slate-800 antialiased dark:bg-dark-bg dark:text-slate-300;
+  }
 }
 
-button { 
-  padding: 8px 16px; 
-  cursor: pointer; 
-  background: #0070f3; 
-  color: white; 
-  border: none; border-radius: 4px; 
-}
+@layer utilities {
+  /* Custom Prose styles for the AI Chat */
+  .prose-ai {
+    @apply text-sm leading-relaxed;
+    
+    & h1, & h2, & h3 {
+      @apply font-bold mt-3 mb-1 text-slate-900 dark:text-white;
+    }
 
-button:hover { 
-  background: #0051bb; 
+    & p {
+      @apply mb-3 last:mb-0;
+    }
 
-}
+    & ul, & ol {
+      @apply mb-3 ml-4 list-disc;
+    }
 
-a { 
-  color: #0070f3; 
-  text-decoration: none; 
-  margin-right: 10px; 
+    & code {
+      @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-xs text-brand-900 dark:bg-white/10 dark:text-brand-300;
+    }
+
+    & pre {
+      @apply my-3 overflow-x-auto rounded-lg bg-slate-900 p-3 font-mono text-xs text-slate-100;
+    }
+  }
 }
