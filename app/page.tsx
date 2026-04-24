@@ -8,10 +8,11 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/dashboard');
+      router.replace('/dashboard');
     } else {
-      router.push('/login');
+      router.replace('/login');
     }
   }, [router]);
 
-  return (
+  return null;
+}
