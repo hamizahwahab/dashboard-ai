@@ -1,8 +1,21 @@
+import { verifyToken } from '@/lib/auth';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { verifyToken } from "@/lib/auth";
 
 export async function POST(req) {
   try {
+    // 1. Verify authentication
+    const user = verifyToken(req);
+    
+    if (!user) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
     const { message } = await req.json();
+
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     // 1. Check if we are in Mock Mode
     // You can set this in .env.local as MOCK_AI=true

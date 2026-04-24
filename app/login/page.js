@@ -89,7 +89,7 @@ export default function LoginPage() {
           
             </form>
             
-            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+            {error && <p className="text-red-600 mt-3">{error}</p>}
 
             <p className="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
               Don&apos;t have an account?

@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/mongodb';
@@ -20,15 +21,23 @@ export async function POST(req) {
       return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
     }
 
-    // 3. Login Successful! 
-    // Usually, you would generate a JWT token here
-    const token = "mock-jwt-token"; 
+// 3. Generate real JWT token
+    const token = jwt.sign(
+      { username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
 
-    return NextResponse.json({ 
-      message: "Login successful",
-      token,
-      user: { username: user.username }
+    const response = NextResponse.json({ message: "Login successful", token, user: { username: user.username } });
+
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 // 24 hours
     });
+
+    return response;
 
   } catch (error) {
     return NextResponse.json({ message: "Login failed", error: error.message }, { status: 500 });

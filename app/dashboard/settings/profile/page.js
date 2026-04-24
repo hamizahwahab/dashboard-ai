@@ -27,31 +27,33 @@ export default function ProfilePage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: user.username, bio: newBio }),
     });
-    if (res.ok) setMessage("Profile updated successfully!");
+    if (res.ok) setMessage('Profile updated successfully!');
   };
 
-  if (loading) return <p>Loading profile...</p>;
+  if (loading) return <p className="p-5">Loading profile...</p>;
 
   return (
-    <div style={{ maxWidth: '600px', padding: '20px' }}>
-      <h1 style={{ fontSize: '28px', marginBottom: '10px' }}>@{user.username}</h1>
-      <p style={{ color: '#666' }}>Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
-      
-      <div style={{ marginTop: '30px' }}>
-        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px' }}>Your Bio</label>
-        <textarea 
+    <div className="max-w-lg mx-auto p-5">
+      <a href="/dashboard" className="text-blue-600 hover:text-blue-700 text-sm mb-4 block">← Back to Dashboard</a>
+
+      <h1 className="text-2xl font-bold text-slate-800 mb-1">@{user.username}</h1>
+      <p className="text-slate-500 text-sm mb-6">Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
+
+      <div className="mt-6">
+        <label className="block font-semibold text-slate-700 mb-2">Your Bio</label>
+        <textarea
           value={newBio}
           onChange={(e) => setNewBio(e.target.value)}
           placeholder="Tell us about yourself..."
-          style={{ width: '100%', height: '100px', padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
+          className="w-full h-24 p-3 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600 resize-none"
         />
-        <button 
+        <button
           onClick={handleUpdate}
-          style={{ marginTop: '15px', padding: '10px 20px', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+          className="mt-4 px-5 py-2.5 bg-blue-600 text-white border-none rounded-lg hover:bg-blue-700"
         >
           Save Profile
         </button>
-        {message && <p style={{ color: 'green', marginTop: '10px' }}>{message}</p>}
+        {message && <p className="text-green-600 mt-3">{message}</p>}
       </div>
     </div>
   );

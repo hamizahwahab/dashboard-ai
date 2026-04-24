@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import { MessageCircle, X, Send, Sparkles, Loader2, ChevronDown, Calendar } from 'lucide-react';
 
 export default function AIChat() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([
@@ -21,6 +23,12 @@ export default function AIChat() {
     day: 'numeric',
     year: 'numeric',
   });
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.push('/login');
+    }
+  }, [router]);
 
   // Retrieve username from localStorage on mount
   useEffect(() => {
@@ -59,13 +67,23 @@ export default function AIChat() {
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
         body: JSON.stringify({ message: input }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
+        if (res.status === 401) {
+          // Unauthorized - redirect to login
+          localStorage.removeItem('token');
+          localStorage.removeItem('username');
+          router.push('/login');
+          return;
+        }
         if (res.status === 429) throw new Error("Quota exceeded. Please wait.");
         throw new Error(data.details || "Connection error.");
       }
