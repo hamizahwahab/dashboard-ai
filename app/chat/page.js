@@ -20,7 +20,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      router.push('/login');
+      router.push('/auth');
     }
   }, [router]);
 

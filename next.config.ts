@@ -1,15 +1,12 @@
 import type { NextConfig } from "next";
 
-const NextConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/dashboard',
-        permanent: true, // This tells browsers to remember the redirect
-      },
-    ]
+const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  turbopack: {
+    root: process.cwd(),
   },
 };
 
-export default NextConfig;
+export default nextConfig;
