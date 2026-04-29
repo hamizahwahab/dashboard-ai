@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BrainCircuit, LayoutDashboard, User, Settings, LogOut, Menu } from 'lucide-react';
+import { Sparkles, LayoutDashboard, User, Settings, LogOut, Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }) {
     localStorage.removeItem('token');
     // Clear the cookie by setting its expiry to the past
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    router.push('/login');
+    router.push('/auth');
   };
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }) {
           <div className="flex h-16 items-center px-6 border-b border-slate-100 dark:border-dark-border">
             <div className="flex items-center gap-2">
               <div className="h-6 w-6 rounded bg-brand-900 flex items-center justify-center text-white">
-                <BrainCircuit />
+                <Sparkles size={15} />
               </div>
               <span className="dark:text-white text-lg font-extrabold text-slate-900 tracking-tight">AI Dashboard</span>
             </div>
